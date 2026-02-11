@@ -1,10 +1,12 @@
 const CACHE_NAME = "secret-calculator-chat-v1";
+const BASE_PATH = "/999999998989/";
+
 const ASSETS = [
-  "./",
-  "./index.html",
-  "./style.css",
-  "./script.js",
-  "./manifest.json"
+  BASE_PATH,
+  BASE_PATH + "index.html",
+  BASE_PATH + "style.css",
+  BASE_PATH + "script.js",
+  BASE_PATH + "manifest.json"
 ];
 
 self.addEventListener("install", (event) => {
