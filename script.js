@@ -73,6 +73,9 @@ const deleteAfterSecondsInput = document.getElementById("deleteAfterSeconds");
 const extraSettingInput = document.getElementById("extraSetting");
 const saveSettingsBtn = document.getElementById("saveSettingsBtn");
 
+// شريط الأدوات الإضافية في الدردشة (إبقاء فقط زر حذف الكل)
+const clearAllMessagesBtn = document.getElementById("clearAllMessagesBtn");
+
 // تهيئة حقول الإعدادات بالقيم الحالية
 passwordExpressionInput.value = secretExpression;
 deleteAfterSecondsInput.value = deleteAfterSeconds || "";
@@ -212,4 +215,52 @@ micBtn.addEventListener("click", () => {
   const info =
     "زر المايك حالياً شكلي فقط. لتفعيل التسجيل الصوتي تحتاج WebRTC/MediaRecorder و Backend.";
   alert(info);
+});
+
+/* ===== أدوات الدردشة الإضافية (حذف الكل فقط) ===== */
+
+// حذف كل الرسائل
+clearAllMessagesBtn.addEventListener("click", () => {
+  chatMessages.innerHTML = "";
+});
+
+/* ===== PWA: تسجيل Service Worker وزر التثبيت ===== */
+
+let deferredPrompt;
+const installPwaBtn = document.getElementById("installPwaBtn");
+
+// تسجيل Service Worker
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("sw.js")
+      .catch((err) => {
+        console.error("Service worker registration failed:", err);
+      });
+  });
+}
+
+// التعامل مع حدث beforeinstallprompt لعرض زر التثبيت
+window.addEventListener("beforeinstallprompt", (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  installPwaBtn.classList.remove("hidden");
+});
+
+installPwaBtn.addEventListener("click", async () => {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  const { outcome } = await deferredPrompt.userChoice;
+  if (outcome === "accepted") {
+    console.log("User accepted the install prompt");
+  } else {
+    console.log("User dismissed the install prompt");
+  }
+  deferredPrompt = null;
+  installPwaBtn.classList.add("hidden");
+});
+
+// إخفاء الزر بعد التثبيت
+window.addEventListener("appinstalled", () => {
+  installPwaBtn.classList.add("hidden");
 });
