@@ -1,77 +1,126 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculator Vault</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <meta charset="UTF-8" />
+  <title>حاسبة + دردشة سرّية</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
+  <div class="app-container">
     <!-- واجهة الحاسبة -->
-    <div id="calculator" class="container">
-        <div class="calc-display" id="display">0</div>
-        <div class="calc-buttons">
-            <button class="btn gray" onclick="clearDisplay()">C</button>
-            <button class="btn gray">+/-</button>
-            <button class="btn gray">%</button>
-            <button class="btn orange" onclick="appendOperator('/')">÷</button>
-            <button class="btn dark" onclick="appendNumber('7')">7</button>
-            <button class="btn dark" onclick="appendNumber('8')">8</button>
-            <button class="btn dark" onclick="appendNumber('9')">9</button>
-            <button class="btn orange" onclick="appendOperator('*')">×</button>
-            <button class="btn dark" onclick="appendNumber('4')">4</button>
-            <button class="btn dark" onclick="appendNumber('5')">5</button>
-            <button class="btn dark" onclick="appendNumber('6')">6</button>
-            <button class="btn orange" onclick="appendOperator('-')">-</button>
-            <button class="btn dark" onclick="appendNumber('1')">1</button>
-            <button class="btn dark" onclick="appendNumber('2')">2</button>
-            <button class="btn dark" onclick="appendNumber('3')">3</button>
-            <button class="btn orange" onclick="appendOperator('+')">+</button>
-            <button class="btn dark zero" onclick="appendNumber('0')">0</button>
-            <button class="btn dark" onclick="appendNumber('.')">.</button>
-            <button class="btn orange" onclick="calculate()">=</button>
-        </div>
+    <div class="calculator" id="calculator">
+      <div class="calc-display" id="calcDisplay">0</div>
+      <div class="calc-buttons">
+        <button class="btn" data-value="7">7</button>
+        <button class="btn" data-value="8">8</button>
+        <button class="btn" data-value="9">9</button>
+        <button class="btn operator" data-value="+">+</button>
+
+        <button class="btn" data-value="4">4</button>
+        <button class="btn" data-value="5">5</button>
+        <button class="btn" data-value="6">6</button>
+        <button class="btn operator" data-value="-">-</button>
+
+        <button class="btn" data-value="1">1</button>
+        <button class="btn" data-value="2">2</button>
+        <button class="btn" data-value="3">3</button>
+        <button class="btn operator" data-value="*">×</button>
+
+        <button class="btn" data-value="0">0</button>
+        <button class="btn" id="clear">C</button>
+        <button class="btn" id="equals">=</button>
+        <button class="btn operator" data-value="/">÷</button>
+      </div>
     </div>
 
-    <!-- واجهة الدردشة -->
-    <div id="chat-interface" class="container hidden">
+    <!-- واجهة الدردشة السرّية -->
+    <div class="chat-wrapper hidden" id="chatWrapper">
+      <div class="chat-phone">
         <div class="chat-header">
-            <div class="user-info">
-                <img src="https://ui-avatars.com/api/?name=Secret+Chat&background=075e54&color=fff" alt="Avatar" width="40" style="border-radius: 50%;">
-                <div class="status-info">
-                    <span class="name">الدردشة السرية</span>
-                    <span class="status">متصل الآن</span>
-                </div>
-            </div>
-            <div class="header-icons">
-                <i class="fas fa-video"></i>
-                <i class="fas fa-phone"></i>
-                <i class="fas fa-ellipsis-v"></i>
-            </div>
-        </div>
-        
-        <div class="chat-messages" id="chatMessages">
-            <div class="msg received">أهلاً بك في الدردشة السرية! يمكنك الآن إرسال الصور والتسجيلات الصوتية.</div>
+          <div class="chat-title">
+            دردشة سرّية
+            <span class="chat-status">متصل الآن</span>
+          </div>
         </div>
 
-        <div class="chat-input-area">
-            <!-- زر رفع الصور -->
-            <label for="imageUpload" class="action-icon">
-                <i class="fas fa-camera"></i>
+        <!-- أزرار التبويب (دردشة / إعدادات) -->
+        <div class="chat-tabs">
+          <button class="chat-tab-btn chat-tab-active" id="tabChatBtn">الدردشة</button>
+          <button class="chat-tab-btn" id="tabSettingsBtn">الإعدادات</button>
+        </div>
+
+        <!-- محتوى الدردشة -->
+        <div class="chat-content" id="chatContent">
+          <div class="chat-messages" id="chatMessages">
+            <!-- رسائل تجريبية -->
+            <div class="msg msg-left">
+              <div class="msg-bubble">
+                أهلاً 👋
+                <div class="msg-time">الآن</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="chat-footer">
+            <label class="icon-btn" title="رفع صورة">
+              📷
+              <input type="file" id="imageInput" accept="image/*" hidden />
             </label>
-            <input type="file" id="imageUpload" hidden accept="image/*" onchange="handleImage(event)">
-            
-            <input type="text" id="messageInput" placeholder="اكتب رسالة..." onkeyup="toggleButtons()">
-            
-            <!-- زر الميكروفون / إرسال -->
-            <button id="mainActionBtn" class="main-action-btn" onclick="handleMainAction()">
-                <i id="actionIcon" class="fas fa-microphone"></i>
-            </button>
-        </div>
-    </div>
 
-    <script src="script.js"></script>
+            <button class="icon-btn" id="micBtn" title="زر المايك">
+              🎤
+            </button>
+
+            <input
+              type="text"
+              id="chatInput"
+              class="chat-input"
+              placeholder="اكتب رسالتك هنا..."
+            />
+
+            <button class="send-btn" id="sendBtn">إرسال</button>
+          </div>
+        </div>
+
+        <!-- محتوى الإعدادات -->
+        <div class="settings-content hidden" id="settingsContent">
+          <div class="settings-section">
+            <label for="passwordExpression" class="settings-label">تغيير كلمة السر (مثال: 4+4)</label>
+            <input
+              type="text"
+              id="passwordExpression"
+              class="settings-input"
+              placeholder="اكتب العملية السرّية مثل 4+4"
+            />
+          </div>
+
+          <div class="settings-section">
+            <label for="deleteAfterSeconds" class="settings-label">توقيت حذف الرسائل (بالثواني)</label>
+            <input
+              type="number"
+              id="deleteAfterSeconds"
+              class="settings-input"
+              min="0"
+              placeholder="0 = بدون حذف تلقائي"
+            />
+          </div>
+
+          <div class="settings-section">
+            <label for="extraSetting" class="settings-label">إعدادات أخرى</label>
+            <input
+              type="text"
+              id="extraSetting"
+              class="settings-input"
+              placeholder="حقل لإعدادات أخرى (اختياري)"
+            />
+          </div>
+
+          <button class="settings-save-btn" id="saveSettingsBtn">حفظ الإعدادات</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
