@@ -4,6 +4,9 @@
   <meta charset="UTF-8" />
   <title>حاسبة + دردشة سرّية</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#020617" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 </head>
 <body>
   <div class="app-container">
@@ -59,6 +62,11 @@
                 <div class="msg-time">الآن</div>
               </div>
             </div>
+          </div>
+
+          <!-- شريط الأدوات الإضافية في الدردشة (إبقاء فقط زر حذف الكل) -->
+          <div class="chat-extra-toolbar">
+            <button class="extra-btn" id="clearAllMessagesBtn">حذف الكل</button>
           </div>
 
           <div class="chat-footer">
@@ -120,6 +128,9 @@
       </div>
     </div>
   </div>
+
+  <!-- زر تثبيت التطبيق كـ PWA -->
+  <button id="installPwaBtn" class="install-pwa-btn hidden">تثبيت كتطبيق</button>
 
   <script src="script.js"></script>
 </body>
