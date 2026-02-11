@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator Vault</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- واجهة الحاسبة -->
+    <div id="calculator" class="container">
+        <div class="calc-display" id="display">0</div>
+        <div class="calc-buttons">
+            <button class="btn gray" onclick="clearDisplay()">C</button>
+            <button class="btn gray">+/-</button>
+            <button class="btn gray">%</button>
+            <button class="btn orange" onclick="appendOperator('/')">÷</button>
+            <button class="btn dark" onclick="appendNumber('7')">7</button>
+            <button class="btn dark" onclick="appendNumber('8')">8</button>
+            <button class="btn dark" onclick="appendNumber('9')">9</button>
+            <button class="btn orange" onclick="appendOperator('*')">×</button>
+            <button class="btn dark" onclick="appendNumber('4')">4</button>
+            <button class="btn dark" onclick="appendNumber('5')">5</button>
+            <button class="btn dark" onclick="appendNumber('6')">6</button>
+            <button class="btn orange" onclick="appendOperator('-')">-</button>
+            <button class="btn dark" onclick="appendNumber('1')">1</button>
+            <button class="btn dark" onclick="appendNumber('2')">2</button>
+            <button class="btn dark" onclick="appendNumber('3')">3</button>
+            <button class="btn orange" onclick="appendOperator('+')">+</button>
+            <button class="btn dark zero" onclick="appendNumber('0')">0</button>
+            <button class="btn dark" onclick="appendNumber('.')">.</button>
+            <button class="btn orange" onclick="calculate()">=</button>
+        </div>
+    </div>
+
+    <!-- واجهة الدردشة -->
+    <div id="chat-interface" class="container hidden">
+        <div class="chat-header">
+            <div class="user-info">
+                <img src="https://ui-avatars.com/api/?name=Secret+Chat&background=075e54&color=fff" alt="Avatar" width="40" style="border-radius: 50%;">
+                <div class="status-info">
+                    <span class="name">الدردشة السرية</span>
+                    <span class="status">متصل الآن</span>
+                </div>
+            </div>
+            <div class="header-icons">
+                <i class="fas fa-video"></i>
+                <i class="fas fa-phone"></i>
+                <i class="fas fa-ellipsis-v"></i>
+            </div>
+        </div>
+        
+        <div class="chat-messages" id="chatMessages">
+            <div class="msg received">أهلاً بك في الدردشة السرية! يمكنك الآن إرسال الصور والتسجيلات الصوتية.</div>
+        </div>
+
+        <div class="chat-input-area">
+            <!-- زر رفع الصور -->
+            <label for="imageUpload" class="action-icon">
+                <i class="fas fa-camera"></i>
+            </label>
+            <input type="file" id="imageUpload" hidden accept="image/*" onchange="handleImage(event)">
+            
+            <input type="text" id="messageInput" placeholder="اكتب رسالة..." onkeyup="toggleButtons()">
+            
+            <!-- زر الميكروفون / إرسال -->
+            <button id="mainActionBtn" class="main-action-btn" onclick="handleMainAction()">
+                <i id="actionIcon" class="fas fa-microphone"></i>
+            </button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
